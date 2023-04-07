@@ -1,0 +1,175 @@
+#Needed game code
+import pygame
+import Room
+pygame.init()
+#Variables
+Screen_Dimensions = pygame.display.set_mode((1920,1880))
+Red = (265, 0 , 0)
+NextRoomButton =  pygame.image.load("other_room_button.png")
+Escape_View = pygame.image.load ("EscapeView.webp")
+Scaled_NextRoomButton = pygame.transform.scale(NextRoomButton, (170, 232))
+RichBedroom = pygame.image.load("RichBedroom.jpeg")
+Room2 = pygame.image.load("Room2.png")
+InsideLock = pygame.image.load("InsideLock.png")
+Lock = pygame.image.load("Lock.png")
+Black_Rectangle = pygame.image.load("Black_Rectangle.png")
+Scaled_Black_Rectangle = pygame.transform.scale (Black_Rectangle, (115,190))
+Scaled_Black_Rectangle2 = pygame.transform.scale (Black_Rectangle, (115,190))
+Scaled_Black_Rectangle3 = pygame.transform.scale (Black_Rectangle, (115,190))
+Scaled_Black_Rectangle4 = pygame.transform.scale (Black_Rectangle, (115,190))
+
+Scaled_Lock = pygame.transform.scale (Lock, (75,75))
+Rotated_And_Scaled_NextRoomButton = pygame.transform.rotate(Scaled_NextRoomButton, 40)
+Scaled_RichBedroom = pygame.transform.scale(RichBedroom, (1920,999.99))
+white = (255,255,255)
+Looking_At_Lock = False
+#Slot lists
+Slot_1_List = [1,2,3,4]
+
+
+NextRoomButton2 =  pygame.image.load("other_room_button.png")
+Scaled_NextRoomButton = pygame.transform.scale(NextRoomButton, (170, 232))
+Rotated_And_Scaled_NextRoomButton2 = pygame. transform. rotate(Scaled_NextRoomButton, 320)
+Hitbox_Of_Rotated_And_Scaled_NextRoomButton = Rotated_And_Scaled_NextRoomButton.get_rect()
+Hitbox_Of_Rotated_And_Scaled_NextRoomButton.center = (1778, 853)
+Hitbox_Of_Rotated_And_Scaled_NextRoomButton2 = Rotated_And_Scaled_NextRoomButton2.get_rect()
+Hitbox_Of_Rotated_And_Scaled_NextRoomButton.center = (400,853)
+Scaled_Room2 = pygame.transform.scale(Room2, (1940,1068))
+Screen_Dimensions.blit(Black_Rectangle, (0,0))
+Main_Room = pygame.image.load("backgroundhouse.jpg")
+Scaled_Main_Room = pygame.transform.scale(Main_Room, (1950, 1000))
+Current_Room = ("main")
+
+
+Room_Dictionary = {Main_Room : 1, Scaled_RichBedroom : 2, Scaled_Room2 : 3 }
+
+
+#Custom_Font= pygame.font('timesnewroman', 32)
+Custom_Font = pygame.font.SysFont(("timesnewroman"), 40, 30, 20)
+Custom_Font2 = pygame.font.SysFont(("comicsansms"), 20, 10,0)
+Comic_Font3 = pygame.font.SysFont(("timesnewroman"), 130,30,20)
+Text_Render = Comic_Font3.render, ("Hi", True, (255,255,255))
+message = Custom_Font.render("INVENTORY", True, (0,0,0))
+message2 = Custom_Font.render("dude ur stuck get out",True, (0,0,0))
+CANT_LEAVE = Custom_Font.render("Cant go there", True, (0,0,0))
+Number2 = Comic_Font3.render(str(Slot_1_List[1]), True, (white))
+Screen_Dimensions.blit(Number2, (660, 755))
+while True:
+    if Current_Room == ("main"):
+        Screen_Dimensions.blit(Scaled_Main_Room, (0, 0))
+    pygame.draw.circle(Screen_Dimensions, (195, 94, 36), (1860, 60), 48, 10)
+    pygame.draw.circle(Screen_Dimensions, (195, 94, 36), (1860, 180), 48, 10)
+    pygame.draw.circle(Screen_Dimensions, (195, 94, 36), (1740, 60), 48, 10)
+    Screen_Dimensions.blit(message, (1410,30))
+    Screen_Dimensions.blit(message2,(750,950))
+    Screen_Dimensions.blit(Rotated_And_Scaled_NextRoomButton,(1778,853))
+    Screen_Dimensions.blit(Rotated_And_Scaled_NextRoomButton2, (-136, 853))
+    pygame.display.update()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            Hitbox_Of_Rotated_And_Scaled_NextRoomButton = Rotated_And_Scaled_NextRoomButton.get_rect()
+            Hitbox_Of_Rotated_And_Scaled_NextRoomButton.center = (1778, 853)
+            print (Hitbox_Of_Rotated_And_Scaled_NextRoomButton)
+            #Lock Hitbox
+            Hitbox_Of_Scaled_Lock = Scaled_Lock.get_rect()
+            Hitbox_Of_Scaled_Lock.center = (223, 400)
+            #Slot 1 hitbox
+            Hitbox_Of_Scaled_Lock_Slot1 = Scaled_Black_Rectangle.get_rect()
+            Hitbox_Of_Scaled_Lock_Slot1.center = (525,755)
+            #Slot 2 hitbox
+            Hitbox_Of_Scaled_Lock_Slot2 = Scaled_Black_Rectangle.get_rect()
+            Hitbox_Of_Scaled_Lock_Slot2.center = (660, 755)
+            #Slot 3 hitbox
+            Hitbox_Of_Scaled_Lock_Slot3 = Scaled_Black_Rectangle.get_rect()
+            Hitbox_Of_Scaled_Lock_Slot3.center = (800, 775)
+            #Slot 4 hitbox
+            Hitbox_Of_Scaled_Lock_Slot4 = Scaled_Black_Rectangle.get_rect()
+            Hitbox_Of_Scaled_Lock_Slot4.center = (925, 755)
+            #Scaled hitbox
+            print(Hitbox_Of_Scaled_Lock)
+            if Hitbox_Of_Scaled_Lock_Slot1.collidepoint(event.pos):
+                Screen_Dimensions.blit(Scaled_Black_Rectangle, (525, 755))
+                Slot_1_List[0] += 1
+            if Slot_1_List[0] == 10:
+                    Slot_1_List[0] = 0
+
+            if Looking_At_Lock == True:
+
+                #Slot 1
+                Screen_Dimensions.blit(InsideLock, (400, 200))
+                Screen_Dimensions.blit(Scaled_Black_Rectangle2, (525, 755))
+                Screen_Dimensions.blit(Scaled_Black_Rectangle, (885, 755))
+                Screen_Dimensions.blit(Scaled_Black_Rectangle3, (645, 755))
+                Screen_Dimensions.blit(Scaled_Black_Rectangle4, (765, 755))
+
+                Number = Comic_Font3.render(str(Slot_1_List[0]), True, (white))
+                Screen_Dimensions.blit(Number, (550, 755))
+
+                Screen_Dimensions.blit(Scaled_Black_Rectangle, (885, 755))
+                Screen_Dimensions.blit(Scaled_Black_Rectangle3, (645, 755))
+                Screen_Dimensions.blit(Scaled_Black_Rectangle4, (765, 755))
+                #Slot 2
+                Number2 = Comic_Font3.render(str(Slot_1_List[1]), True, (white))
+                Screen_Dimensions.blit(Number2, (660, 755))
+                if Hitbox_Of_Scaled_Lock_Slot2.collidepoint(event.pos):
+                    Slot_1_List[1] += 1
+                if Slot_1_List[1] == 10:
+                    Slot_1_List[1] = 0
+                #Slot 3
+                Number3 = Comic_Font3.render(str(Slot_1_List[2]), True, (white))
+                Screen_Dimensions.blit(Number3, (775, 755))
+                if Hitbox_Of_Scaled_Lock_Slot3.collidepoint(event.pos):
+                    Slot_1_List[2] += 1
+                if Slot_1_List[2] == 10:
+                    Slot_1_List[2] = 0
+                #Slot 4
+                Number4 = Comic_Font3.render(str(Slot_1_List[3]), True, (white))
+                Screen_Dimensions.blit(Number4, (900, 755))
+                if Hitbox_Of_Scaled_Lock_Slot4.collidepoint(event.pos):
+                    Slot_1_List[3] += 1
+                if Slot_1_List[3] == 10:
+                    Slot_1_List[3] = 0
+
+            if Slot_1_List[0] == 3 and Slot_1_List[1] == 5 and Slot_1_List[2] == 7 and Slot_1_List[3] == 9:
+                Screen_Dimensions.blit(Escape_View, (0,0))
+
+
+            if Hitbox_Of_Scaled_Lock.collidepoint(event.pos):
+                Looking_At_Lock = True
+
+
+                #don't forget to fix this, number is not rendering
+
+
+            #Right Arrow
+            if Hitbox_Of_Rotated_And_Scaled_NextRoomButton.collidepoint(event.pos):
+                Screen_Dimensions.blit(Scaled_RichBedroom, (0,0))
+                if Current_Room == ("main"):
+                    Screen_Dimensions.blit(Scaled_RichBedroom, (0,0))
+                    Current_Room = ("richbedroom")
+                    Screen_Dimensions.blit(Scaled_Lock, (215, 360))
+                elif Current_Room == ("Room2"):
+                    Screen_Dimensions.blit(Scaled_Main_Room, (0,0))
+                    Current_Room = ("main")
+                elif Current_Room == ("richbedroom"):
+                    Screen_Dimensions.blit(CANT_LEAVE, (1550,925))
+                    Screen_Dimensions.blit(Scaled_Lock, (215, 360))
+
+            if  Hitbox_Of_Rotated_And_Scaled_NextRoomButton2 == Rotated_And_Scaled_NextRoomButton2.get_rect():
+                Hitbox_Of_Rotated_And_Scaled_NextRoomButton2.center = (100,853)
+            #Left Arrow
+            if Hitbox_Of_Rotated_And_Scaled_NextRoomButton2.collidepoint(event.pos):
+                if Current_Room == ("main"):
+                    Screen_Dimensions.blit(Scaled_Room2, (0,-60))
+                    Current_Room = ("Room2")
+                elif Current_Room == ("richbedroom"):
+                    Screen_Dimensions.blit(Scaled_Main_Room,(0,0))
+                    Current_Room = ("main")
+                elif Current_Room == ("Room2"):
+                    Screen_Dimensions.blit(CANT_LEAVE, (90, 925))
+            print (Hitbox_Of_Rotated_And_Scaled_NextRoomButton2)
+
+    pygame.display.update()
