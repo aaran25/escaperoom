@@ -13,7 +13,7 @@ Room2 = pygame.image.load("Room2.png")
 InsideLock = pygame.image.load("InsideLock.png")
 Lock = pygame.image.load("Lock.png")
 Black_Rectangle = pygame.image.load("Black_Rectangle.png")
-Scaled_Black_Rectangle = pygame.transform.scale (Black_Rectangle, (115,190))
+Scaled_Black_Rectangle = pygame.transform.scale (Black_Rectangle, (115,190)).convert_alpha()
 Scaled_Black_Rectangle2 = pygame.transform.scale (Black_Rectangle, (115,190))
 Scaled_Black_Rectangle3 = pygame.transform.scale (Black_Rectangle, (115,190))
 Scaled_Black_Rectangle4 = pygame.transform.scale (Black_Rectangle, (115,190))
@@ -79,6 +79,12 @@ while True:
             #Slot 1 hitbox
             Hitbox_Of_Scaled_Lock_Slot1 = Scaled_Black_Rectangle.get_rect()
             Hitbox_Of_Scaled_Lock_Slot1.center = (525,755)
+            mask = pygame.mask.from_surface(Scaled_Black_Rectangle)
+            auto_outline = mask.outline()
+            auto_outline_image = pygame.Surface(Hitbox_Of_Scaled_Lock_Slot1.size).convert_alpha()
+            auto_outline_image.fill((8, 189, 7))
+            for point in auto_outline:
+                auto_outline_image.set_at(point, (255, 255, 255))
             #Slot 2 hitbox
             Hitbox_Of_Scaled_Lock_Slot2 = Scaled_Black_Rectangle.get_rect()
             Hitbox_Of_Scaled_Lock_Slot2.center = (660, 755)
@@ -87,18 +93,13 @@ while True:
             Hitbox_Of_Scaled_Lock_Slot3.center = (800, 775)
             #Slot 4 hitbox
             Hitbox_Of_Scaled_Lock_Slot4 = Scaled_Black_Rectangle.get_rect()
-            Hitbox_Of_Scaled_Lock_Slot4.center = (925, 755)
-            #Scaled hitbox
-            print(Hitbox_Of_Scaled_Lock)
-            if Hitbox_Of_Scaled_Lock_Slot1.collidepoint(event.pos):
-                Screen_Dimensions.blit(Scaled_Black_Rectangle, (525, 755))
-                Slot_1_List[0] += 1
-            if Slot_1_List[0] == 10:
-                    Slot_1_List[0] = 0
+            Hitbox_Of_Scaled_Lock_Slot4.center = (970,755)
+
+            #Scaled rectangles blit
 
             if Looking_At_Lock == True:
-
-                #Slot 1
+                Hitbox_Of_Scaled_Lock_Slot4 = Scaled_Black_Rectangle.get_rect()
+                Hitbox_Of_Scaled_Lock_Slot4.center = (925, 755)
                 Screen_Dimensions.blit(InsideLock, (400, 200))
                 Screen_Dimensions.blit(Scaled_Black_Rectangle2, (525, 755))
                 Screen_Dimensions.blit(Scaled_Black_Rectangle, (885, 755))
@@ -108,40 +109,42 @@ while True:
                 Number = Comic_Font3.render(str(Slot_1_List[0]), True, (white))
                 Screen_Dimensions.blit(Number, (550, 755))
 
-                Screen_Dimensions.blit(Scaled_Black_Rectangle, (885, 755))
-                Screen_Dimensions.blit(Scaled_Black_Rectangle3, (645, 755))
-                Screen_Dimensions.blit(Scaled_Black_Rectangle4, (765, 755))
-                #Slot 2
+
+            #Scaled hitbox
+                print(Hitbox_Of_Scaled_Lock)
+                if Hitbox_Of_Scaled_Lock_Slot1.collidepoint(event.pos):
+                    Screen_Dimensions.blit(auto_outline_image, (525, 755))
+                    Slot_1_List[0] += 1
+                if Slot_1_List[0] == 10:
+                        Slot_1_List[0] = 0
                 Number2 = Comic_Font3.render(str(Slot_1_List[1]), True, (white))
                 Screen_Dimensions.blit(Number2, (660, 755))
                 if Hitbox_Of_Scaled_Lock_Slot2.collidepoint(event.pos):
                     Slot_1_List[1] += 1
-                if Slot_1_List[1] == 10:
-                    Slot_1_List[1] = 0
-                #Slot 3
+                    if Slot_1_List[1] == 10:
+                        Slot_1_List[1] = 0
+                    # Slot 3
                 Number3 = Comic_Font3.render(str(Slot_1_List[2]), True, (white))
                 Screen_Dimensions.blit(Number3, (775, 755))
                 if Hitbox_Of_Scaled_Lock_Slot3.collidepoint(event.pos):
                     Slot_1_List[2] += 1
                 if Slot_1_List[2] == 10:
                     Slot_1_List[2] = 0
-                #Slot 4
+                    # Slot 4
                 Number4 = Comic_Font3.render(str(Slot_1_List[3]), True, (white))
                 Screen_Dimensions.blit(Number4, (900, 755))
                 if Hitbox_Of_Scaled_Lock_Slot4.collidepoint(event.pos):
                     Slot_1_List[3] += 1
-                if Slot_1_List[3] == 10:
-                    Slot_1_List[3] = 0
-
-            if Slot_1_List[0] == 3 and Slot_1_List[1] == 5 and Slot_1_List[2] == 7 and Slot_1_List[3] == 9:
-                Screen_Dimensions.blit(Escape_View, (0,0))
+                    if Slot_1_List[3] == 10:
+                        Slot_1_List[3] = 0
+                if Looking_At_Lock == True:
+                    if Slot_1_List[0] == 3 and Slot_1_List[1] == 5 and Slot_1_List[2] == 7 and Slot_1_List[3] == 9:
+                        Screen_Dimensions.blit(Escape_View, (0,0))
 
 
             if Hitbox_Of_Scaled_Lock.collidepoint(event.pos):
                 Looking_At_Lock = True
 
-
-                #don't forget to fix this, number is not rendering
 
 
             #Right Arrow
